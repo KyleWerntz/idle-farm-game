@@ -23,9 +23,9 @@ class Crop:
         self._current_sell_value = Decimal(values[9])
         self._current_compost_value = Decimal(values[10])
         self._rate_cost_growth = Decimal(values[11])
-        self._time_to_next_production = Decimal(values[12])
-        self._previous_time = datetime.strptime(values[13], self._date_format)
-        self._crops_produced_leftovers = 0.0
+        self._crops_produced_leftovers = Decimal(values[12])
+        self._previous_time = Decimal(datetime.utcnow().timestamp())
+        self.produce()
 
     def get_name(self):
         return self._name
@@ -63,8 +63,8 @@ class Crop:
     def get_rate_cost_growth(self):
         return self._rate_cost_growth
 
-    def get_time_to_next_production(self):
-        return self._time_to_next_production
+    def get_leftover_crops(self):
+        return self._crops_produced_leftovers
 
     def get_cost_of_next(self):
         return self._base_cost * (math.pow(self._rate_cost_growth, self._crops_owned))
@@ -96,11 +96,10 @@ class Crop:
         self._amount_produced = 0
         return cash_earned
 
-    def produce_over(self, current_time_not_formatted: str):
-        current_time = datetime.strptime(current_time_not_formatted, self._date_format)
+    def produce(self):
+        current_time = Decimal(datetime.utcnow().timestamp())
         time_passed = current_time - self._previous_time
         self._previous_time = current_time
-        microseconds = time_passed.microseconds
-        just_produced = (microseconds / self._current_growth_time) + self._crops_produced_leftovers
+        just_produced = (time_passed / self._current_growth_time) + self._crops_produced_leftovers
         self._amount_produced += int(just_produced)
         self._crops_produced_leftovers = just_produced % 1

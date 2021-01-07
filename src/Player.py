@@ -4,7 +4,7 @@ from decimal import Decimal
 
 class Player:
 
-    def __init__(self, line):
+    def __init__(self, line: str):
         values = re.split(',', line)
         self._cash = Decimal(values[0])
         self._compost = Decimal(values[1])
@@ -15,19 +15,19 @@ class Player:
     def get_compost(self):
         return self._compost
 
-    def add_cash(self, amount):
+    def add_cash(self, amount: Decimal):
         if amount >= 0:
             self._cash += amount
 
-    def add_compost(self, amount):
+    def add_compost(self, amount: Decimal):
         if amount >= 0:
             self._compost += amount
 
-    def use_cash(self, amount):
+    def use_cash(self, amount: Decimal):
         if self._cash >= amount >= 0:
             self._cash -= amount
 
-    def use_compost(self, amount):
+    def use_compost(self, amount: Decimal):
         if self._compost >= amount >= 0:
             self._compost -= amount
 

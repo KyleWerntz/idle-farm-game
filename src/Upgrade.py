@@ -4,7 +4,7 @@ from decimal import Decimal
 
 class Upgrade:
 
-    def __init__(self, line):
+    def __init__(self, line: str):
         values = re.split(',', line)
         self._name = values[0]
         self._upgradeType = values[1]

@@ -1,11 +1,13 @@
-import re, math
+import re
+import math
 from datetime import datetime
 from decimal import Decimal
+from src import Upgrade
 
 
 class Crop:
 
-    def __init__(self, line):
+    def __init__(self, line: str):
         values = re.split(',', line)
         self._date_format = '%Y-%m-%d %H:%M:%S'
 
@@ -75,7 +77,7 @@ class Crop:
         return math.floor(math.log(((cash * (self._rate_cost_growth - 1)) /
                                     self.get_cost_of_next()) + 1, self._rate_cost_growth))
 
-    def apply_upgrade(self, upgrade):
+    def apply_upgrade(self, upgrade: Upgrade):
         if upgrade.get_type() == "sell":
             self._current_sell_value *= upgrade.get_value()
         elif upgrade.get_type() == "compost":
@@ -94,13 +96,11 @@ class Crop:
         self._amount_produced = 0
         return cash_earned
 
-    def produce_over(self, current_time_unformatted):
-        current_time = datetime.strptime(current_time_unformatted, self._date_format)
+    def produce_over(self, current_time_not_formatted: str):
+        current_time = datetime.strptime(current_time_not_formatted, self._date_format)
         time_passed = current_time - self._previous_time
         self._previous_time = current_time
         microseconds = time_passed.microseconds
         just_produced = (microseconds / self._current_growth_time) + self._crops_produced_leftovers
         self._amount_produced += int(just_produced)
         self._crops_produced_leftovers = just_produced % 1
-
-

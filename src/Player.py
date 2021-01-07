@@ -9,6 +9,12 @@ class Player:
         self._cash = Decimal(values[0])
         self._compost = Decimal(values[1])
 
+    def get_cash(self):
+        return self._cash
+
+    def get_compost(self):
+        return self._compost
+
     def add_cash(self, amount):
         if amount >= 0:
             self._cash += amount
@@ -26,4 +32,4 @@ class Player:
             self._compost -= amount
 
     def save_state(self):
-        return str(self._cash) + "," + str(self._compost)
+        return f"{str(self._cash)} + ',' + {str(self._compost)}"

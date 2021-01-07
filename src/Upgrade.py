@@ -1,5 +1,5 @@
 import re
-import enum
+from decimal import Decimal
 
 
 class Upgrade:
@@ -8,7 +8,7 @@ class Upgrade:
         values = re.split(',', line)
         self._name = values[0]
         self._upgradeType = values[1]
-        self._value = float(values[2])
+        self._value = Decimal(values[2])
         if values[3] == "False":
             self._purchased = False
         else:
@@ -30,4 +30,4 @@ class Upgrade:
         self._purchased = True
 
     def save_state(self):
-        return self._name + "," + self._upgradeType + "," + str(self._value) + "," + str(self._purchased)
+        return f"{self._name} + ',' + {self._upgradeType} + ',' + {str(self._value)} + ',' + {str(self._purchased)}"

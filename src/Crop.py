@@ -8,7 +8,7 @@ from src import Upgrade
 class Crop:
 
     def __init__(self, line: str):
-        values = re.split(',', line)
+        values = re.split(',', line)  # I'd like to add checking for corrupted data
         self._date_format = '%Y-%m-%d %H:%M:%S'
 
         self._name = values[0]

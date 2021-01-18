@@ -4,8 +4,11 @@ from decimal import Decimal
 
 class Player:
 
-    def __init__(self, line: str):
-        values = re.split(',', line)
+    def __init__(self, line: str, create_new=False):
+        if create_new:
+            values = [0,0]
+        else:
+            values = re.split(',', line)
         self._cash = Decimal(values[0])
         self._compost = Decimal(values[1])
 

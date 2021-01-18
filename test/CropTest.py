@@ -1,6 +1,7 @@
 import unittest
 import time
 from src import Crop
+from src.crops import Carrot
 from src import Upgrade
 from decimal import Decimal
 
@@ -52,6 +53,10 @@ class MyTestCase(unittest.TestCase):
         c.produce()
         self.assertEqual(123, c.get_amount_produced())
         self.assertTrue(c.get_leftover_crops() < 1)
+
+    def test_default_carrot(self):
+        c = Carrot.Carrot("", create_new=True)
+        self.assertEqual(c.get_name(), "0")
 
 
 if __name__ == '__main__':

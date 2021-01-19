@@ -7,5 +7,5 @@ class Pineapple(Crop.Crop):
         # we define initial values of Crop
         if create_new:
             # create new carrot object (define default parameters)
-            line = "Pineapple,0,0,0,0,0,0,0,1,0,0,0,0,0"
+            line = "Pineapple,0,0,0,0,0,0,0,1,0,0,0,0,0,0"
         super().__init__(line)

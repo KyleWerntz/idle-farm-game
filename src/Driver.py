@@ -4,28 +4,14 @@ from os import path, getcwd
 from src import Player
 from src.crops import Apple, Beet, Carrot, Grape, Pineapple, Potato, Rutabaga, Watermelon
 
-player = ""
-apple = ""
-beet = ""
-carrot = ""
-grape = ""
-pineapple = ""
-potato = ""
-rutabaga = ""
-watermelon = ""
-
 
 def create_new_game():
-    global player, apple, beet, carrot, grape, pineapple, potato, rutabaga, watermelon
-    player = Player.Player("", create_new=True)
-    apple = Apple.Apple("", create_new=True)
-    beet = Beet.Beet("", create_new=True)
-    carrot = Carrot.Carrot("", create_new=True)
-    grape = Grape.Grape("", create_new=True)
-    pineapple = Pineapple.Pineapple("", create_new=True)
-    potato = Potato.Potato("", create_new=True)
-    rutabaga = Rutabaga.Rutabaga("", create_new=True)
-    watermelon = Watermelon.Watermelon("", create_new=True)
+    global game_objects
+    game_objects = [Player.Player("", create_new=True), Apple.Apple("", create_new=True),
+                    Beet.Beet("", create_new=True),
+                    Carrot.Carrot("", create_new=True), Grape.Grape("", create_new=True),
+                    Pineapple.Pineapple("", create_new=True), Potato.Potato("", create_new=True),
+                    Rutabaga.Rutabaga("", create_new=True), Watermelon.Watermelon("", create_new=True)]
     display_game_frame()
 
 
@@ -43,6 +29,16 @@ def display_title_frame():
                                     command=lambda: load_game()).pack(side=RIGHT, expand=True)  # TODO
 
 
+def save_game():
+    global game_objects
+    save_state = ""
+    for obj in game_objects:
+        save_state = save_state + obj.save_state() + "\n"
+    with open(path.join(getcwd(), '..', 'txt-files', 'load_state'), 'w') as file:
+        file.write(save_state)
+    display_title_frame()
+
+
 def display_game_frame():
     global window
     for widget in window.winfo_children():
@@ -50,27 +46,23 @@ def display_game_frame():
 
     game_frame = Frame(window).pack()
     return_to_menu_button = Button(game_frame, text="return to menu",
-                                   command=lambda: display_title_frame()).pack()
+                                   command=lambda: save_game()).pack()
 
 
 def load_game():
-    global player, apple, beet, carrot, grape, pineapple, potato, rutabaga, watermelon
+    global game_objects
     with open(path.join(getcwd(), '..', 'txt-files', 'load_state'), 'r') as file:
         data = file.read().split('\n')
-        player = Player.Player(data[0])
-        apple = Apple.Apple(data[1])
-        beet = Beet.Beet(data[2])
-        carrot = Carrot.Carrot(data[3])
-        grape = Grape.Grape(data[4])
-        pineapple = Pineapple.Pineapple(data[5])
-        potato = Potato.Potato(data[6])
-        rutabaga = Rutabaga.Rutabaga(data[7])
-        watermelon = Watermelon.Watermelon(data[8])
+        game_objects = [Player.Player(data[0]), Apple.Apple(data[1]), Beet.Beet(data[2]), Carrot.Carrot(data[3]),
+                        Grape.Grape(data[4]), Pineapple.Pineapple(data[5]), Potato.Potato(data[6]),
+                        Rutabaga.Rutabaga(data[7]), Watermelon.Watermelon(data[8])]
     display_game_frame()
 
 
 window = Tk()
 window.title("idle eco game")
 window.geometry("800x800")
+game_objects = []
+create_new_game()
 display_title_frame()
 window.mainloop()

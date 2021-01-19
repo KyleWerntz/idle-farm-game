@@ -23,7 +23,10 @@ class Crop:
         self._current_compost_value = Decimal(values[10])
         self._rate_cost_growth = Decimal(values[11])
         self._crops_produced_leftovers = Decimal(values[12])
-        self._previous_time = Decimal(datetime.utcnow().timestamp())
+        if values[13] == "0":
+            self._previous_time = Decimal(datetime.utcnow().timestamp())
+        else:
+            self._previous_time = Decimal(values[13])
         self.produce()
 
     def get_name(self):
@@ -101,3 +104,10 @@ class Crop:
         just_produced = (time_passed / self._current_growth_time) + self._crops_produced_leftovers
         self._amount_produced += int(just_produced)
         self._crops_produced_leftovers = just_produced % 1
+
+    def save_state(self):
+        return f"{str(self._name)},{str(self._crops_owned)},{str(self._amount_produced)},{str(self._base_cost)}," \
+               f"{str(self._base_growth_time)},{str(self.get_base_sell_value())},{str(self._base_compost_value)}," \
+               f"{str(self._current_cost)},{str(self._current_growth_time)},{str(self._current_sell_value)}," \
+               f"{str(self._current_compost_value)},{str(self._rate_cost_growth)}," \
+               f"{str(self._crops_produced_leftovers)},{str(self._previous_time)}"

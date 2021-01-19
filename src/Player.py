@@ -34,4 +34,4 @@ class Player:
             self._compost -= amount
 
     def save_state(self):
-        return f"{str(self._cash)} + ',' + {str(self._compost)}"
+        return f"{str(self._cash)},{str(self._compost)}"

@@ -29,4 +29,4 @@ class Upgrade:
         self._purchased = True
 
     def save_state(self):
-        return f"{self._name} + ',' + {self._upgradeType} + ',' + {str(self._value)} + ',' + {str(self._purchased)}"
+        return f"{self._name},{self._upgradeType},{str(self._value)},{str(self._purchased)}"

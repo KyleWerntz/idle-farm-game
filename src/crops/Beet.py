@@ -7,5 +7,5 @@ class Beet(Crop.Crop):
         # we define initial values of Crop
         if create_new:
             # create new carrot object (define default parameters)
-            line = "Beet,0,0,0,0,0,0,0,1,0,0,0,0,0"
+            line = "Beet,0,0,0,0,0,0,0,1,0,0,0,0,0,0"
         super().__init__(line)

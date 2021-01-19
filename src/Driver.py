@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter.ttk import *
+from os import path, getcwd
 from src import Player
 from src.crops import Apple, Beet, Carrot, Grape, Pineapple, Potato, Rutabaga, Watermelon
 
@@ -53,7 +54,18 @@ def display_game_frame():
 
 
 def load_game():
-    # load current state
+    global player, apple, beet, carrot, grape, pineapple, potato, rutabaga, watermelon
+    with open(path.join(getcwd(), '..', 'txt-files', 'load_state'), 'r') as file:
+        data = file.read().split('\n')
+        player = Player.Player(data[0])
+        apple = Apple.Apple(data[1])
+        beet = Beet.Beet(data[2])
+        carrot = Carrot.Carrot(data[3])
+        grape = Grape.Grape(data[4])
+        pineapple = Pineapple.Pineapple(data[5])
+        potato = Potato.Potato(data[6])
+        rutabaga = Rutabaga.Rutabaga(data[7])
+        watermelon = Watermelon.Watermelon(data[8])
     display_game_frame()
 
 

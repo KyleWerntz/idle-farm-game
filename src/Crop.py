@@ -1,5 +1,4 @@
-import re
-import math
+from math import floor, log, pow
 from datetime import datetime
 from decimal import Decimal
 from src import Upgrade
@@ -8,7 +7,7 @@ from src import Upgrade
 class Crop:
 
     def __init__(self, line: str):
-        values = re.split(',', line)  # I'd like to add checking for corrupted data
+        values = line.split(',')
         self._date_format = '%Y-%m-%d %H:%M:%S'
 
         self._name = values[0]
@@ -67,15 +66,14 @@ class Crop:
         return self._crops_produced_leftovers
 
     def get_cost_of_next(self):
-        return self._base_cost * (math.pow(self._rate_cost_growth, self._crops_owned))
+        return self._base_cost * (pow(self._rate_cost_growth, self._crops_owned))
 
     def get_cost_of_x(self, x):
-        return self._base_cost * (math.pow(self._rate_cost_growth, self._crops_owned)) * \
-                    ((math.pow(self._rate_cost_growth, x)) - 1) / (self._rate_cost_growth - 1)
+        return self._base_cost * (pow(self._rate_cost_growth, self._crops_owned)) * \
+                    ((pow(self._rate_cost_growth, x)) - 1) / (self._rate_cost_growth - 1)
 
     def get_cost_of_max(self, cash):
-        return math.floor(math.log(((cash * (self._rate_cost_growth - 1)) /
-                                    self.get_cost_of_next()) + 1, self._rate_cost_growth))
+        return floor(log(((cash * (self._rate_cost_growth - 1)) / self.get_cost_of_next()) + 1, self._rate_cost_growth))
 
     def apply_upgrade(self, upgrade: Upgrade):
         if upgrade.get_type() == "sell":

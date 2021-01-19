@@ -1,11 +1,10 @@
-import re
 from decimal import Decimal
 
 
 class Upgrade:
 
     def __init__(self, line: str):
-        values = re.split(',', line)
+        values = line.split(',')
         self._name = values[0]
         self._upgradeType = values[1]
         self._value = Decimal(values[2])

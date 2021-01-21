@@ -69,7 +69,7 @@ class Crop:
         return self._crops_produced_leftovers
 
     def get_cost_of_next(self):
-        return self._base_cost * (pow(self._rate_cost_growth, self._crops_owned))
+        return self._base_cost * Decimal((pow(self._rate_cost_growth, self._crops_owned)))
 
     def get_cost_of_x(self, x):
         return self._base_cost * (pow(self._rate_cost_growth, self._crops_owned)) * \
@@ -88,12 +88,18 @@ class Crop:
         upgrade.purchase()
 
     def sell_produce(self):
-        cash_earned = self._amount_produced * self._current_sell_value
+        cash_earned = self.get_potential_sell()
         self._amount_produced = 0
         return cash_earned
 
+    def get_potential_sell(self):
+        return self._amount_produced * self._current_sell_value
+
+    def get_potential_compost(self):
+        return self._amount_produced * self._current_compost_value
+
     def compost_produce(self):
-        cash_earned = self._amount_produced * self._current_compost_value
+        cash_earned = self.get_potential_compost()
         self._amount_produced = 0
         return cash_earned
 
